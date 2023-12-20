@@ -1,0 +1,104 @@
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+
+  <meta charset="utf-8">
+  <title>{{ title }}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <!--style-->
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+
+    .card {
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.07);
+      background: #ffffff;
+      border-radius: 15px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .card:hover {
+      transform: scale(1.02);
+    }
+
+    .submit-form {
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.07);
+      background: #ffffff;
+      border-radius: 15px;
+      padding: 20px;
+      margin-top: 20px;
+    }
+  </style>
+
+</head>
+
+<body class="container-fluid">
+
+  {% if messages %}
+  <div class="row">
+    <div class="col-md-12">
+      {% for message in messages %}
+      <div class="alert alert-info alert-dismissible fade show" role="alert">
+        <strong>{{ message }}</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h1 class="text-center mt-4"><i>Todo list..</i></h1>
+      <hr />
+      {% for i in list %}
+      <div class="card">
+        <h5 class="text-center mb-4"><b>{{ i.title }}</b></h5>
+        <p class="text-center text-muted">{{ i.date }}</p>
+        <hr />
+        <p>{{ i.details }}</p>
+        <form action="/del/{{ i.id }}" method="POST" class="text-right">
+          {% csrf_token %}
+          <button value="remove" type="submit" class="btn btn-danger">
+            <span class="fas fa-trash-alt"></span> Remove
+          </button>
+        </form>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="col-md-4">
+      <div class="submit-form">
+        <form method="POST">
+          {% csrf_token %}
+          <div class="form-group">
+            {{ forms.title.label_tag }}
+            {{ forms.title }}
+          </div>
+          <div class="form-group">
+            {{ forms.date.label_tag }}
+            {{ forms.date }}
+          </div>
+          <div class="form-group">
+            {{ forms.details.label_tag }}
+            {{ forms.details }}
+          </div>
+          <div class="text-center mt-3">
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
